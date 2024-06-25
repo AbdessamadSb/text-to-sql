@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import "./App.css";
 
@@ -17,7 +17,7 @@ function App() {
       const formData = new FormData();
       formData.append("file", file);
       try {
-        await axios.post("http://localhost:5000/upload_database", formData, {
+        await axios.post("http://localhost:8080/upload_database", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -44,7 +44,7 @@ function App() {
     setResult(null);
     try {
       const response = await axios.post(
-        "http://localhost:5000/process_question",
+        "http://localhost:8080/process_question",
         { question }
       );
       setResult(response.data);
