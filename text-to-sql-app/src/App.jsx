@@ -71,6 +71,7 @@ function App() {
       </div>
       <form onSubmit={handleSubmit}>
         <input
+          className="textInp"
           type="text"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
@@ -84,13 +85,61 @@ function App() {
       {loading && <p>Processing...</p>}
       {error && <p className="error">{error}</p>}
       {result && (
-        <div>
-          <h2>Generated SQL Query:</h2>
-          <pre>{result.query}</pre>
-          <h2>Query Result:</h2>
-          <pre>{JSON.stringify(result.result, null, 2)}</pre>
-          <h2>Interpretation:</h2>
-          <p>{result.interpretation}</p>
+        <div >
+          <div>
+            <h2 >
+              Generated SQL Query
+            </h2>
+            <pre >
+              {result.query}
+            </pre>
+          </div>
+
+          <div>
+            <h2 >
+              Query Result
+            </h2>
+            <div className="table">
+              <table >
+                <thead>
+                  <tr className="text-left">
+                    {result.result[0] &&
+                      Object.keys(result.result[0]).map((key) => (
+                        <th
+                          key={key}
+                          className="bg-gray-200 sticky top-0 border-b border-gray-300 px-6 py-3 text-gray-700 font-bold tracking-wider uppercase text-xs"
+                        >
+                          {key}
+                        </th>
+                      ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.result.map((row, index) => (
+                    <tr key={index}>
+                      {Object.values(row).map((value, i) => (
+                        <td
+                          key={i}
+                          className="border-dashed border-t border-gray-300 px-6 py-4 text-gray-700"
+                        >
+                          {value}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+              Interpretation
+            </h2>
+            <p className="text-gray-700 bg-gray-100 p-4 rounded-lg">
+              {result.interpretation}
+            </p>
+          </div>
         </div>
       )}
     </div>
